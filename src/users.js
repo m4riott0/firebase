@@ -1,3 +1,4 @@
+
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { db } from './firebaseConnection'
 import { deleteDoc, doc } from 'firebase/firestore'

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList } from 'react-native';
-import { db } from './firebaseConnection'
+import { db, auth } from './firebaseConnection'
 import { doc, getDoc, onSnapshot, setDoc, collection, addDoc, getDocs, updateDoc } from 'firebase/firestore'
 import { UsersList } from './users'
 
+import { signOut } from 'firebase/auth'
 
 export function FormUsers() {
   const [nome, setNome] = useState("")
@@ -112,6 +113,10 @@ export function FormUsers() {
 
   }
 
+  async function handleLogout(){
+    await signOut(auth);
+  } 
+
  return (
   <View style={styles.container}>
     { showForm && (
@@ -170,6 +175,9 @@ export function FormUsers() {
       renderItem={ ({ item }) => <UsersList data={item} handleEdit={ (item) => editUser(item) } /> }
     />
 
+    <TouchableOpacity onPress={handleLogout} style={styles.buttonLogout}>
+      <Text style={{ color: "#FFF" }}>Sair da conta</Text>
+    </TouchableOpacity>
 
   </View>
   );
@@ -205,5 +213,12 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginLeft: 8,
     marginRight: 8,
+  },
+  buttonLogout:{
+    backgroundColor: 'red',
+    alignSelf: "flex-start",
+    margin: 14,
+    padding: 8,
+    borderRadius: 4
   }
 })
